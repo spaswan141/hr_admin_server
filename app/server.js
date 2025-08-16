@@ -27,7 +27,7 @@ app.use(express.json());    // Parse JSON bodies
 app.use(morgan('dev'));     // HTTP logging in dev mode
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN, // your Vite frontend
+    origin: "https://hr-admin-panel-sigma.vercel.app",
     credentials: true,               // allow cookies / auth headers
     methods: ["GET", "POST", "PUT","PATCH","DELETE", "OPTIONS"], // allow all needed methods
     allowedHeaders: ["Content-Type", "Authorization"],     // allow JWT in headers
