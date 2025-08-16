@@ -27,7 +27,7 @@ app.use(express.json());    // Parse JSON bodies
 app.use(morgan('dev'));     // HTTP logging in dev mode
 app.use(
   cors({
-    origin: "http://localhost:5173", // your Vite frontend
+    origin: process.env.ALLOWED_ORIGIN, // your Vite frontend
     credentials: true,               // allow cookies / auth headers
     methods: ["GET", "POST", "PUT","PATCH","DELETE", "OPTIONS"], // allow all needed methods
     allowedHeaders: ["Content-Type", "Authorization"],     // allow JWT in headers
