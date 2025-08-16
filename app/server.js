@@ -25,13 +25,23 @@ connectDB();
 app.use(helmet());          // Security headers
 app.use(express.json());    // Parse JSON bodies
 app.use(morgan('dev'));     // HTTP logging in dev mode
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",")
 app.use(
   cors({
-    origin: "https://hr-admin-panel-sigma.vercel.app",
-    credentials: true,               // allow cookies / auth headers
-    methods: ["GET", "POST", "PUT","PATCH","DELETE", "OPTIONS"], // allow all needed methods
-    allowedHeaders: ["Content-Type", "Authorization"],     // allow JWT in headers
-    exposedHeaders: ["Content-Disposition"]
+    origin: (origin, callback) => {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Content-Disposition"],
   })
 );
 // 👇 add this
