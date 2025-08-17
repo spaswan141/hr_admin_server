@@ -1,6 +1,9 @@
 const LeaveModel = require("../models/leave.model");
 const path = require("path");
 const fs = require("fs");
+
+
+
 exports.addLeave = async (req, res) => {
   try {
     // Check if user is authenticated
@@ -25,7 +28,7 @@ exports.addLeave = async (req, res) => {
 
     // Define upload paths
 
-    const uploadDir = path.join(__dirname, "../", "uploads");
+    const uploadDir = path.join(__dirname, "../../", "uploads");
     console.log(uploadDir, "uploadDir");
     const filePath = path.join(uploadDir, fileName);
     const fileUrl = `/leaves/${fileName}`; // Backend URL path
@@ -187,7 +190,7 @@ exports.downloadDocs = async (req, res) => {
   try {
     const leave = await LeaveModel.findById(req.params.id);
     const fileName = path.basename(leave.document);
-    const filePath = path.join(__dirname, "../uploads", fileName);
+    const filePath = path.join(__dirname, "../../uploads", fileName);
 
     return res.download(filePath, fileName, (err) => {
       if (err) {

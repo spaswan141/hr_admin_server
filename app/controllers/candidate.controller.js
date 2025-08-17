@@ -11,8 +11,8 @@ exports.createCandidate = async (req, res) => {
 
     // Extract form fields
     const { fullName, email, phone, experience, position } = req.body;
-    const userId=req.user._id
-    const isEmailExist = await Candidate.findOne({ email,userId});
+    const userId = req.user._id;
+    const isEmailExist = await Candidate.findOne({ email, userId });
     if (isEmailExist) {
       return res.status(409).send({
         code: 409,
@@ -20,7 +20,7 @@ exports.createCandidate = async (req, res) => {
       });
     }
 
-    const isPhoneExist = await Candidate.findOne({ phone,userId });
+    const isPhoneExist = await Candidate.findOne({ phone, userId });
     if (isPhoneExist) {
       return res.status(409).send({
         code: 409,
@@ -40,9 +40,10 @@ exports.createCandidate = async (req, res) => {
     const fileName = `${timestamp}_${resume.name}`;
 
     // Define upload paths
-    const uploadDir = path.join(__dirname, "../", "uploads");
+    const uploadDir = path.join(__dirname, "../../", "uploads");
+    console.log(uploadDir, "uploadDir");
     const filePath = path.join(uploadDir, fileName);
-    const fileUrl = `/uploads/${fileName}`; // Backend URL path
+    const fileUrl = `/resume/${fileName}`; // Backend URL path
 
     // Ensure upload directory exists
     if (!fs.existsSync(uploadDir)) {
@@ -67,7 +68,7 @@ exports.createCandidate = async (req, res) => {
 
     // Save candidate data to database
     const candidateData = {
-      userId:req.user._id,
+      userId: req.user._id,
       fullName,
       email,
       phone,
@@ -102,7 +103,7 @@ exports.getCandidates = async (req, res) => {
 
     // Build match conditions
     let matchConditions = {
-      userId:req.user._id,
+      userId: req.user._id,
     };
 
     if (status) {
@@ -154,7 +155,7 @@ exports.downloadResume = async (req, res) => {
     // For example, assuming the file is saved in /public/files/
     const user = await Candidate.findById(req.params.id);
     const fileName = path.basename(user.resume);
-    const filePath = path.join(__dirname, "../uploads", fileName);
+    const filePath = path.join(__dirname, "../../uploads", fileName);
     // Use res.download to trigger file download in browser
     return res.download(filePath, "resume.pdf", (err) => {
       if (err) {

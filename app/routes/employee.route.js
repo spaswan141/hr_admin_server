@@ -5,7 +5,8 @@ const {
   getEmployees,
   getEmployeeById,
   updateEmployee,
-  deleteEmployee
+  deleteEmployee,
+  getPresentEmployees
 } = require('../controllers/employee.controller');
 const passport=require("passport")
 const requireAuth = passport.authenticate('jwt', {
@@ -13,6 +14,7 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 router.get('/',requireAuth, getEmployees);
+router.get("/present",requireAuth,getPresentEmployees)
 router.patch('/update/:id',requireAuth,updateEmployee);
 router.get('/:id',requireAuth, getEmployeeById);
 router.delete('/:id',requireAuth, deleteEmployee);
